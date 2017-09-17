@@ -132,105 +132,28 @@ public:
 		return min;
 	}
 
-	int ocena(int brojac){ return vertikala( brojac) + gornjadesna( brojac) + gornjaleva( brojac) + gore( brojac); }
+	int ocena(int brojac){ return dirirectionValue( 1,0, brojac) + dirirectionValue( 1,1, brojac) + dirirectionValue( 0,1, brojac) + dirirectionValue( -1,1, brojac); }
 
 
-	//int dirirectionValue(int xDir, int yDir) {
-	//	int s = 0;
-	//	bool pro = true;
-	//	int suma = 0;
-	//	for (int i = 0; i < 6; i++)
-	//		for (int j = 0; j < 4; j++) {
-	//			s = 0;
-	//			pro = true;
-
-	//			for (int z = 0; z < 4; z++)
-
-	//				if (mat[i][j + z] == 0 || mat[i][j + z] == brojac)
-	//					s += mat[i][j + z] == brojac;
-	//				else { pro = false; j += z; z += 4; }
-
-	//				suma += vrednosti[s*pro];
-	//		}
-	//	return suma;
-	//}
-
-	int vertikala(int brojac){
-		int s = 0;
-		bool pro = true;
+	int dirirectionValue(int xDir, int yDir, int brojac) {
 		int suma = 0;
-		for (int i = 0; i < 6; i++)
-			for (int j = 0; j < 4; j++){
-				s = 0;
-				pro = true; 
-				
-				for (int z = 0; z < 4; z++)
-			
-					if (mat[i][j + z] == 0 || mat[i][j + z] == brojac) 
-						s += mat[i][j + z] == brojac;
-					else { pro = false; j += z; z += 4; }
-					
+		for (int i = (yDir == -1) * 3; i < 6 - (yDir == 1) * 3; i++) {
+			for (int j = (xDir == -1) * 3; j < 7 - (xDir == 1) * 3; j++) {
+				int s = 0;
+				bool pro = true;
+				for (int z = 0; z < 4; z++) {
+					s += (mat[i + z*yDir][j + z*xDir] == brojac);
+					if (mat[i + z*yDir][j + z*xDir] == -brojac)
+					{
+						pro = false; 
+						j += (yDir == 0)*z;
+						i += (xDir == 0)*z;
+						z += 4;
+					}
+				}
 				suma += vrednosti[s*pro];
 			}
-	return suma;
-	}
-	int gornjadesna(int brojac){
-		int s = 0;
-		bool pro = true;
-		int suma = 0;
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 4; j++){
-				s = 0;
-				pro = true;
-				for (int z = 0; z < 4; z++)
-
-					if (mat[i+z][j + z] == 0 || mat[i+z][j + z] == brojac)
-						s += mat[i+z][j + z] == brojac;
-					else { pro = false; z += 4; }
-
-					suma += vrednosti[s*pro];
-			}
-		return suma;
-	}
-	int gornjaleva(int brojac){
-		int s = 0;
-		bool pro = true;
-		int suma = 0;
-		for (int i = 0; i < 3; i++)
-			for (int j = 3; j < 7; j++){
-				s = 0;
-				pro = true;
-				for (int z = 0; z < 4; z++)
-
-					if (mat[i + z][j - z] == 0 || mat[i + z][j - z] == brojac)
-						s += mat[i + z][j - z] == brojac;
-					else { pro = false; z += 4; }
-
-					suma += vrednosti[s*pro];
-			}
-		return suma;
-	}
-
-	int gore(int brojac){
-		int s = 0;
-		bool pro = true;
-		int suma = 0;
-		for (int j = 0; j < 7; j++)
-			for (int i = 0; i < 3; i++)
-			{
-				s = 0;
-				pro = true;
-				if (mat[i][j] == 0 || mat[i][j] != brojac) i += 3;
-				else{
-					for (int z = 0; z < 4; z++)
-
-						if (mat[i + z][j] == 0 || mat[i + z][j] == brojac)
-							s += mat[i + z][j] == brojac;
-						else { pro = false;  i += z;z += 4; }
-
-						suma += vrednosti[s*pro];
-				}
-			}
+		}
 		return suma;
 	}
 
