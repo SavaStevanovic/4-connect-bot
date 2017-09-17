@@ -32,6 +32,7 @@ private:
 // Construction
 public:
 	CSPDialogDlg(CWnd* pParent = NULL);	// standard constructor
+
 	int minmax(int i, int nivo, bool maxi,int &alpha,int beta,int granica){
 		int poma = alpha;
 		
@@ -157,61 +158,31 @@ public:
 		return suma;
 	}
 
+	int sameElementsInARow(int mat[][7],int x, int y, int xDir, int yDir)
+	{
+		int j = 1;
+		int elementCount = 0;
+		while ( x + j*xDir >= 0 && x + j*xDir < 7 && y + j*yDir >= 0 && y + j*yDir < 6 && mat[x + j*xDir][y + j*yDir] == mat[x][y])
+		{
+			j++;
+			elementCount++;
+		}
+		return elementCount;
+	}
+
 	bool gg(int i){
 		int y = i;
 		int x = niz[i];
-		int h,v,dl,dd;
-		h = v = dl = dd = 0;
-		int j = 1;
-		int check = mat[x][y];
-		while (mat[x - j][y] == mat[x][y] && x- j>=0)
-		{
-			j++;
-			v++;
+		for (int j = 0; j < 4; j++) {
+			int xDir = (j / 3) - 1;
+			int yDir = (j % 3) - 1;
+			int directionCount= sameElementsInARow(mat, x, y, yDir, xDir ) + sameElementsInARow(mat, x, y, -yDir, -xDir);
+			if (directionCount > 2)
+				return true;
 		}
-		j = 1;
-		while (mat[x][y+j] == mat[x][y]&& y+j<7)
-		{
-			j++;
-			h++;
-		}
-		j = 1;
-		while (mat[x][y - j] == mat[x][y] && y - j>=0)
-		{
-			j++;
-			h++;
-		}
-
-		j = 1;
-		while (mat[x - j][y - j] == mat[x][y] && y - j >= 0 && x - j >= 0)
-		{
-			j++;
-			dl++;
-		}	
-		j = 1;
-		while (mat[x + j][y + j] == mat[x][y] && y + j<7 && x + j<6)
-		{
-			j++;
-			dl++;
-		}
-
-		j = 1;
-		while (mat[x - j][y + j] == mat[x][y] && y + j<7 && x - j>=0)
-		{
-			j++;
-			dd++;
-		}
-		j = 1;
-		while (mat[x + j][y - j] == mat[x][y] && x + j<6 && y - j >= 0)
-		{
-			j++;
-			dd++;
-		}
-		if (h > 2 || v > 2 || dl > 2 || dd > 2)
-			return true;
 		return false;
-
 	}
+
 // Dialog Data
 	enum { IDD = IDD_SPDIALOG_DIALOG };
 

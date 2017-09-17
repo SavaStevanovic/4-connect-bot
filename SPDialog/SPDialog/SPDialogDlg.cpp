@@ -238,29 +238,13 @@ HCURSOR CSPDialogDlg::OnQueryDragIcon()
 
 void CSPDialogDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
-
-
 	if (gotovo==false)
 	if (20 < point.x && point.x < 720 && 20 < point.y && point.y < 620)
 	{
 
 		if (niz[(int)floor(((double)point.x - 20) / 100)] < 6){
-			/*CBitmap bmp;
 
-			bmp.Attach(LoadBitmap(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP1)));
-			*/
 			CClientDC dc(this);
-			/*	CDC bmDC;
-				bmDC.CreateCompatibleDC(&dc);
-				CBitmap *pOldbmp = bmDC.SelectObject(&bmp);
-
-				BITMAP  bi;
-				bmp.GetBitmap(&bi);
-				*/
-			//	dc.BitBlt(point.x, point.y,bi.bmWidth,bi.bmHeight,&bmDC,0,0,SRCCOPY);
-			//dc.BitBlt(21, 231,28,28,&bmDC,0,0,SRCCOPY);
-
 			CBrush* pTempBrush = NULL;
 			pTempBrush = (CBrush*)dc.SelectObject(&boje[brojac]);
 			brojac = -brojac + 1;
